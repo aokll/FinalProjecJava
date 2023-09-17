@@ -1,20 +1,32 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Box {
-    private List<ToyBuilder> toys;
+public class Box implements IBox{
+
+    private Queue<Toy> queue;
+
+    public Queue<Toy> getQueue() {
+        return queue;
+    }
 
     public Box() {
-        toys = new ArrayList<>();
+        queue = new PriorityQueue<>(new ToyComparator());
+    }
+    @Override
+    public void put(Toy toy) {
+        queue.add(toy);
+    }
+    @Override
+    public Toy get(){
+        return queue.poll();
+    }
+    static class ToyComparator implements Comparator<Toy> {
+        @Override
+        public int compare(Toy o1, Toy o2) {
+            return o2.getMassOfToy() - o1.getMassOfToy();
+        }
     }
 
-    public List<ToyBuilder> getToys() {
-        return toys;
-    }
 
-    public void setToys(List<ToyBuilder> toys) {
-        this.toys = toys;
-    }
 }
